@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-search {
+  background: linear-gradient(106.23deg, #f99827, #f95f35 100%);
+}
+
+.bg-button {
+  background: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
