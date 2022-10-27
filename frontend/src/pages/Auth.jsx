@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Logo from '../img/logo.png';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { AUTH } from '../constants/actionTypes';
+import { GoogleLogin } from '@react-oauth/google';
 import { signin, signup } from '../actions/auth';
 
 const Auth = () => {
@@ -36,9 +35,15 @@ const Auth = () => {
     if (isSignup) {
       dispatch(signup(form, navigate));
     } else {
-      dispatch(signin(form, navigate));
+      dispatch(signin(form, navigate, null));
     }
   };
+
+  const googleSuccess = async (response) => {
+    dispatch(signin(null, navigate, response));
+  };
+
+  const googleError = () => alert('Google Sign In was unsuccessful. Try again later');
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -161,13 +166,23 @@ const Auth = () => {
               </div>
             </div>
           )}
-          <div className="w-full flex justify-end align-center m-[-0.75rem] h-8">
+          <div className="w-full flex align-center justify-center m-[-0.75rem] h-8">
             <button
               type="submit"
               className="w-24 h-8 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange"
             >
               {isSignup ? 'Sign Up' : 'Sign In'}
             </button>
+          </div>
+          <div className="w-full flex align-center justify-center m-[-0.75rem] h-8">
+            <GoogleLogin
+              className="rounded-lg"
+              logo_alignment="center"
+              onSuccess={googleSuccess}
+              onError={googleError}
+              size="large"
+              shape="circle"
+            />
           </div>
           <div className="w-full flex justify-center align-center mt-[-0.75rem] g-4 h-8">
             <button type="reset" className="text-[12px]" onClick={switchMode}>
