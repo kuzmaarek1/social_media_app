@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import Logo from '../img/logo.png';
+import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { AUTH } from '../constants/actionTypes';
+import { signin, signup } from '../actions/auth';
 
 const Auth = () => {
   const initialState = {
@@ -9,6 +14,8 @@ const Auth = () => {
     password: '',
     confirmPassword: '',
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
@@ -27,9 +34,9 @@ const Auth = () => {
     console.log(form);
     e.preventDefault();
     if (isSignup) {
-      console.log('isSingup');
+      dispatch(signup(form, navigate));
     } else {
-      console.log('isSingin');
+      dispatch(signin(form, navigate));
     }
   };
   const handleChange = (e) => {
