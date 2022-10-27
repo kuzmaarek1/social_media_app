@@ -6,7 +6,7 @@ const Posts = () => {
   return (
     <div className="flex flex-col gap-1rem">
       {posts.map((post, id) => {
-        return <Post data={post} id={id} />;
+        return <Post key={id} data={post} id={id} />;
       })}
     </div>
   );
