@@ -1,4 +1,5 @@
 import { Modal, useMantineTheme } from '@mantine/core';
+import Button from './Button';
 
 const ProfileModal = ({ modalOpened, setModalOpened }) => {
   const theme = useMantineTheme();
@@ -66,9 +67,7 @@ const ProfileModal = ({ modalOpened, setModalOpened }) => {
           Cover Image
           <input type="file" name="coverImg" />
         </div>
-        <button className=" w-24 h-8 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange">
-          Update
-        </button>
+        <Button text="Update" styles=" w-24 h-8 self-end" />
       </form>
     </Modal>
   );
