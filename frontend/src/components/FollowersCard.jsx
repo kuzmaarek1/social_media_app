@@ -7,7 +7,7 @@ const FollowersCard = () => {
       <h3 className="font-bold text-[1.17rem]">Who is following you</h3>
       {followers.map((follower, id) => {
         return (
-          <div className="flex justify-between items-center">
+          <div key={id} className="flex justify-between items-center">
             <div className="flex gap-2.5">
               <img
                 className="w-[3.2rem] h-[3.2rem] rounded-[50%]"
