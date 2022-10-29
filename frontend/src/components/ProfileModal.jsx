@@ -1,5 +1,6 @@
 import { Modal, useMantineTheme } from '@mantine/core';
 import Button from './Button';
+import Input from './Input';
 
 const ProfileModal = ({ modalOpened, setModalOpened }) => {
   const theme = useMantineTheme();
@@ -11,63 +12,41 @@ const ProfileModal = ({ modalOpened, setModalOpened }) => {
       }
       overlayOpacity={0.55}
       overlayBlur={3}
-      size="55%"
+      size="90%"
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-      <form className="flex flex-col justify-center items-center gap-8">
+      <form className="flex flex-col justify-center items-center gap-8 text-xs sm:text-base">
         <h3>Your info</h3>
         <div className="w-[90%] h-8 flex gap-4">
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            name="FirstName"
-            placeholder="First Name"
-          />
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            name="LastName"
-            placeholder="Last Name"
-          />
+          <Input name="FirstName" placeholder="First Name" />
+          <Input name="LastName" placeholder="Last Name" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            name="worksAT"
-            placeholder="Works at"
-          />
+          <Input name="worksAt" placeholder="Works at" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            name="livesIN"
-            placeholder="LIves in"
-          />
-
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            name="Country"
-            placeholder="Country"
-          />
+          <Input name="livesIn" placeholder="Lives in" />
+          <Input name="Country" placeholder="Country" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <input
-            type="text"
-            className="border-none outline-none bg-inputColor p-5 rounded-lg flex-1"
-            placeholder="RelationShip Status"
-          />
+          <Input name="relationshipStatus" placeholder="Relationship Status" />
         </div>
-        <div className="w-[90%] h-8 flex gap-4">
-          Profile Image
-          <input type="file" name="profileImg" />
-          Cover Image
-          <input type="file" name="coverImg" />
+        <div className="w-[90%] h-8 flex gap-4 flex-col md:flex-row">
+          <div className="w-full flex flex-row">
+            <label className="mr-4" for="profileImg">
+              Profile Image
+            </label>
+            <input type="file" id="profileImg" name="profileImg" />
+          </div>
+          <div className="w-full flex flex-row">
+            <label className="mr-4" for="coverImg">
+              Cover Image
+            </label>
+            <input type="file" id="coverImage" name="coverImg" />
+          </div>
         </div>
-        <Button text="Update" styles=" w-24 h-8 self-end" />
+        <Button text="Update" styles=" w-24 h-8 self-end mt-4 sm:mt-0" />
       </form>
     </Modal>
   );

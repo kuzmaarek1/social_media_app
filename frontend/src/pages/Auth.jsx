@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
 import Logo from '../img/logo.png';
 import { signin, signup } from '../actions/auth';
-import Input from '../components/Input';
+import InputForm from '../components/InputForm';
 import Button from '../components/Button';
 import ShowPasswordButton from '../components/ShowPasswordButton';
 
@@ -70,13 +70,13 @@ const Auth = () => {
           <h3 className="text-[1.17rem] font-bold">{isSignup ? 'Sign Up' : 'Sign In'}</h3>
           {isSignup && (
             <div className="w-full h-8 gap-2 grid grid-cols-2">
-              <Input
+              <InputForm
                 type="text"
                 name="firstName"
                 placeholder="First Name"
                 handleChange={handleChange}
               />
-              <Input
+              <InputForm
                 type="text"
                 name="lastName"
                 placeholder="Last Name"
@@ -84,13 +84,13 @@ const Auth = () => {
               />
             </div>
           )}
-          <Input
+          <InputForm
             type="text"
             name="email"
             placeholder="Email"
             handleChange={handleChange}
           />
-          <Input
+          <InputForm
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"
@@ -100,10 +100,10 @@ const Auth = () => {
               handleShowPassword={handleShowPassword}
               showPassword={showPassword}
             />
-          </Input>
+          </InputForm>
           {isSignup && (
             <>
-              <Input
+              <InputForm
                 type={showPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 placeholder="Repeat Password"
@@ -113,7 +113,7 @@ const Auth = () => {
                   handleShowPassword={handleShowPassword}
                   showPassword={showPassword}
                 />
-              </Input>
+              </InputForm>
             </>
           )}
           <div className="w-full flex align-center justify-center m-[-0.75rem] h-8">
