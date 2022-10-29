@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import Logo from '../img/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
+import Logo from '../img/logo.png';
 import { signin, signup } from '../actions/auth';
+import Button from '../components/Button';
 
 const Auth = () => {
   const initialState = {
@@ -167,12 +168,11 @@ const Auth = () => {
             </div>
           )}
           <div className="w-full flex align-center justify-center m-[-0.75rem] h-8">
-            <button
+            <Button
               type="submit"
-              className="w-24 h-8 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange"
-            >
-              {isSignup ? 'Sign Up' : 'Sign In'}
-            </button>
+              styles="w-24 h-8"
+              text={isSignup ? 'Sign Up' : 'Sign In'}
+            />
           </div>
           <div className="w-full flex align-center justify-center m-[-0.75rem] h-8">
             <GoogleLogin

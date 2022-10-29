@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import ProfileImage from '../img/profileImg.jpg';
 import {
   UilScenery,
   UilPlayCircle,
@@ -7,6 +6,8 @@ import {
   UilSchedule,
   UilTimes,
 } from '@iconscout/react-unicons';
+import Button from './Button';
+import ProfileImage from '../img/profileImg.jpg';
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
@@ -49,9 +50,10 @@ const PostShare = () => {
             <UilSchedule />
             Shedule
           </div>
-          <button className="p-[5px] pl-5 pr-5 text-[12px] w-28 h-8 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange">
-            Share
-          </button>
+          <Button
+            text="Share"
+            styles="p-[5px] pl-5 pr-5 text-[15px] w-28 h-8 bg-button self-end"
+          />
           <div className="hidden">
             <input type="file" name="myImage" ref={imageRef} onChange={onImageChange} />
           </div>
