@@ -1,5 +1,5 @@
 import React from 'react';
-import { trend } from '../../data/trend';
+import { trend } from '@/data/trend';
 
 const TrendCard = () => {
   return (

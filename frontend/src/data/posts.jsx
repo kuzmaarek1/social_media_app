@@ -1,5 +1,5 @@
-import postPic1 from '../img/postpic1.jpg';
-import postPic2 from '../img/postpic2.jpg';
+import postPic1 from '@/img/postpic1.jpg';
+import postPic2 from '@/img/postpic2.jpg';
 //import postPic3 from '../img/postpic3.JPG';
 
 export const posts = [

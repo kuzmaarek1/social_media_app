@@ -1,6 +1,6 @@
 import React from 'react';
-import { followers } from '../../data/followers';
-import Button from '../atoms/Button';
+import { followers } from '@/data/followers';
+import Button from '@/components/atoms/Button';
 
 const FollowersCard = () => {
   return (
