@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UilPen } from '@iconscout/react-unicons';
-import Button from './Button';
-import ProfileModal from './ProfileModal';
+import Button from '../atoms/Button';
+import ProfileModal from '../molecules/ProfileModal';
 
 const InfoCard = () => {
   const [modalOpened, setModalOpened] = useState(false);

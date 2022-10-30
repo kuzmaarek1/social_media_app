@@ -1,7 +1,7 @@
 import React from 'react';
-import FollowersCard from './FollowersCard';
-import InfoCard from './InfoCard';
-import LogoSearch from './LogoSearch';
+import FollowersCard from '../molecules/FollowersCard';
+import InfoCard from '../molecules/InfoCard';
+import LogoSearch from '../molecules/LogoSearch';
 const ProfileLeft = () => {
   return (
     <div className="flex flex-col gap-4 ">

@@ -6,9 +6,9 @@ import {
   UilSchedule,
   UilTimes,
 } from '@iconscout/react-unicons';
-import Button from './Button';
-import ProfileImage from '../img/profileImg.jpg';
-import Input from './Input';
+import Button from '../atoms/Button';
+import ProfileImage from '../../img/profileImg.jpg';
+import Input from '../atoms/Input';
 
 const PostShare = () => {
   const [image, setImage] = useState(null);

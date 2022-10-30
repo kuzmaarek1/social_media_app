@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
 import Logo from '../img/logo.png';
 import { signin, signup } from '../actions/auth';
-import InputForm from '../components/InputForm';
-import Button from '../components/Button';
-import ShowPasswordButton from '../components/ShowPasswordButton';
+import InputForm from '../components/atoms/InputForm';
+import Button from '../components/atoms/Button';
+import ShowPasswordButton from '../components/atoms/ShowPasswordButton';
 
 const Auth = () => {
   const initialState = {
@@ -54,7 +54,7 @@ const Auth = () => {
   return (
     <div className="h-[100vh] flex flex-col sm:flex-row items-center justify-center gap-16 relative">
       <div className="flex items-center justify-center gap-8">
-        <img className="w-16 h-16" src={Logo} alt="" />
+        <img className="w-20 h-16" src={Logo} alt="" />
         <div>
           <h1 className="text-[3rem] font-bold bg-button bg-repeat bg-clip-text text-transparent">
             ZKC Media
