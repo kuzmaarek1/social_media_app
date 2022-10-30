@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Home from '../img/home.png';
-import Noti from '../img/noti.png';
-import Comment from '../img/comment.png';
+import Home from '../../img/home.png';
+import Noti from '../../img/noti.png';
+import Comment from '../../img/comment.png';
 import { UilSetting } from '@iconscout/react-unicons';
-import Button from './Button';
-import TrendCard from './TrendCard';
-import ShareModal from './ShareModal';
+import Button from '../atoms/Button';
+import TrendCard from '../molecules/TrendCard';
+import ShareModal from '../molecules/ShareModal';
 
 const RightSide = () => {
   const [modalOpened, setModalOpened] = useState(false);

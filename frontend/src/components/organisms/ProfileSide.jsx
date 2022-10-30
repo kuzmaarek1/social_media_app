@@ -1,7 +1,7 @@
 import React from 'react';
-import FollowersCard from './FollowersCard';
-import LogoSearch from './LogoSearch';
-import ProfileCard from './ProfileCard';
+import FollowersCard from '../molecules/FollowersCard';
+import LogoSearch from '../molecules/LogoSearch';
+import ProfileCard from '../molecules/ProfileCard';
 
 const ProfileSide = () => {
   return (

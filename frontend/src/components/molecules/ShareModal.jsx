@@ -1,7 +1,7 @@
 import { Modal, useMantineTheme } from '@mantine/core';
-import PostShare from './PostShare';
+import PostShare from '../molecules/PostShare';
 
-function ShareModal({ modalOpened, setModalOpened }) {
+const ShareModal = ({ modalOpened, setModalOpened }) => {
   const theme = useMantineTheme();
 
   return (
@@ -18,6 +18,6 @@ function ShareModal({ modalOpened, setModalOpened }) {
       <PostShare />
     </Modal>
   );
-}
+};
 
 export default ShareModal;
