@@ -1,6 +1,6 @@
 import React from 'react';
-import { posts } from '../../data/posts';
-import Post from '../molecules/Post';
+import { posts } from '@/data/posts';
+import Post from '@/components/molecules/Post';
 
 const Posts = () => {
   return (

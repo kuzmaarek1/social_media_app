@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
-import Logo from '../img/logo.png';
-import { signin, signup } from '../actions/auth';
-import InputForm from '../components/atoms/InputForm';
-import Button from '../components/atoms/Button';
-import ShowPasswordButton from '../components/atoms/ShowPasswordButton';
+import Logo from '@/img/logo.png';
+import { signin, signup } from '@/actions/auth';
+import InputForm from '@/components/atoms/InputForm';
+import Button from '@/components/atoms/Button';
+import ShowPasswordButton from '@/components/atoms/ShowPasswordButton';
 
 const Auth = () => {
   const initialState = {

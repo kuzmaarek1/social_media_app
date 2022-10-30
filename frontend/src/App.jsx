@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import MainTemplates from './components/templates/MainTemplates';
-import Profile from './pages/Profile';
-import Auth from './pages/Auth';
-import Home from './pages/Home';
+import MainTemplates from '@/components/templates/MainTemplates';
+import Profile from '@/pages/Profile';
+import Auth from '@/pages/Auth';
+import Home from '@/pages/Home';
 
 const App = () => {
   const user =

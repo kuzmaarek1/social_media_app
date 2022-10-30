@@ -1,6 +1,6 @@
 import { Modal, useMantineTheme } from '@mantine/core';
-import Button from '../atoms/Button';
-import Input from '../atoms/Input';
+import Button from '@/components/atoms/Button';
+import Input from '@/components/atoms/Input';
 
 const ProfileModal = ({ modalOpened, setModalOpened }) => {
   const theme = useMantineTheme();

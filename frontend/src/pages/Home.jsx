@@ -1,7 +1,7 @@
 import React from 'react';
-import PostSide from '../components/organisms/PostSide';
-import ProfileSide from '../components/organisms/ProfileSide';
-import RightSide from '../components/organisms/RightSide';
+import PostSide from '@/components/organisms/PostSide';
+import ProfileSide from '@/components/organisms/ProfileSide';
+import RightSide from '@/components/organisms/RightSide';
 
 const Home = () => {
   return (
