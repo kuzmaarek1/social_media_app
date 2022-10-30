@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UilPen } from '@iconscout/react-unicons';
-import ProfileModal from './ProfileModal';
+import Button from '@/components/atoms/Button';
+import ProfileModal from '@/components/molecules/ProfileModal';
 
 const InfoCard = () => {
   const [modalOpened, setModalOpened] = useState(false);
@@ -32,9 +33,7 @@ const InfoCard = () => {
         </span>
         <span>Zainkeepscode inst</span>
       </div>
-      <button className="w-28 h-8 mt-24 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange">
-        Logout
-      </button>
+      <Button text="Logout" styles="w-28 h-8 mt-24 self-end" />
     </div>
   );
 };

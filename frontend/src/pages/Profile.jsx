@@ -1,8 +1,8 @@
 import React from 'react';
-import PostSide from '../components/PostSide';
-import ProfileCard from '../components/ProfileCard';
-import ProfileLeft from '../components/ProfileLeft';
-import RightSide from '../components/RightSide';
+import PostSide from '@/components/organisms/PostSide';
+import ProfileCard from '@/components/molecules/ProfileCard';
+import ProfileLeft from '@/components/organisms/ProfileLeft';
+import RightSide from '@/components/organisms/RightSide';
 
 const Profile = () => {
   return (

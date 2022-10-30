@@ -2,14 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-search {
-  background-image: linear-gradient(106.23deg, #f99827, #f95f35 100%);
-}
+@layer utilities {
+  .bg-search {
+    background-image: linear-gradient(106.23deg, #f99827, #f95f35 100%);
+  }
+  .bg-button {
+    background-image: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
 
-.bg-button {
-  background-image: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
-}
-
-::-webkit-scrollbar {
-  display: none;
+  @variants hover, focous, valid {
+    .bg-input {
+      background-image: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
+    }
+  }
 }

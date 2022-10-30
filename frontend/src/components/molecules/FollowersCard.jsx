@@ -1,5 +1,6 @@
 import React from 'react';
-import { followers } from '../data/followers';
+import { followers } from '@/data/followers';
+import Button from '@/components/atoms/Button';
 
 const FollowersCard = () => {
   return (
@@ -19,9 +20,7 @@ const FollowersCard = () => {
                 <span>@{follower.username}</span>
               </div>
             </div>
-            <button className="h-8 pl-5 pr-5 bg-button flex items-center justify-center text-white border-none rounded-lg self-end duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange">
-              Follow
-            </button>
+            <Button text="Follow" styles="h-8 pl-5 pr-5 self-end w-[30%]" />
           </div>
         );
       })}

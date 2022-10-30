@@ -1,6 +1,6 @@
-import { AUTH } from '../constants/actionTypes';
-import * as api from '../api/index.jsx';
 import jwt_decode from 'jwt-decode';
+import { AUTH } from '@/constants/actionTypes';
+import * as api from '@/api/index.jsx';
 
 export const signin = (formData, navigate, response) => async (dispatch) => {
   try {

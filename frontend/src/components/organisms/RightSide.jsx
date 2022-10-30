@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Home from '../img/home.png';
-import Noti from '../img/noti.png';
-import Comment from '../img/comment.png';
 import { UilSetting } from '@iconscout/react-unicons';
-import TrendCard from './TrendCard';
-import ShareModal from './ShareModal';
+import Home from '@/img/home.png';
+import Noti from '@/img/noti.png';
+import Comment from '@/img/comment.png';
+import Button from '@/components/atoms/Button';
+import TrendCard from '@/components/molecules/TrendCard';
+import ShareModal from '@/components/molecules/ShareModal';
 
 const RightSide = () => {
   const [modalOpened, setModalOpened] = useState(false);
@@ -17,12 +18,11 @@ const RightSide = () => {
         <img className="w-6 h-6" src={Comment} alt="" />
       </div>
       <TrendCard />
-      <button
-        className="h-12 w-[80%] self-center bg-button flex items-center justify-center text-white border-none rounded-lg duration-150 ease-out hover:pointer hover:bg-transparent hover:border-solid hover:border-2 hover:border-orange"
-        onClick={() => setModalOpened(true)}
-      >
-        Share
-      </button>
+      <Button
+        text="Share"
+        styles="h-12 w-[80%] self-center"
+        handleButtonClick={() => setModalOpened(true)}
+      />
       <ShareModal modalOpened={modalOpened} setModalOpened={setModalOpened} />
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
-import Posts from './Posts';
-import PostShare from './PostShare';
+import Posts from '@/components/organisms/Posts';
+import PostShare from '@/components/molecules/PostShare';
 
 const PostSide = () => {
   return (
