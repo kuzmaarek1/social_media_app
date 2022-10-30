@@ -1,16 +1,22 @@
 import React from 'react';
+import Label from '@/components/atoms/Label';
 
-const Input = ({ placeholder, name, styles, children }) => {
+const Input = ({ placeholder, name, styles, children, label }) => {
   return (
-    <>
+    <div className="relative">
       <input
         type="text"
-        className={`w-full border-none outline-none bg-inputColor p-5 rounded-lg flex-1 ${styles}`}
-        placeholder={placeholder}
+        placeholder={label ? '' : placeholder}
+        className={`w-full border-none outline-none bg-inputColor p-5 rounded-lg flex-1 ${styles} peer
+        focus:border-orange focus:border-[0.1px] focus:border-solid 
+        valid:border-orange valid:border-[0.1px] valid:border-solid`}
         name={name}
+        id={name}
+        required
       />
+      {label && <Label name={name} placeholder={placeholder} styles="m-2.5" />}
       {children}
-    </>
+    </div>
   );
 };
 

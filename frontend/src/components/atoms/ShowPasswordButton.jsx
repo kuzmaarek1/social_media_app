@@ -3,7 +3,7 @@ import React from 'react';
 const ShowPasswordButton = ({ handleShowPassword, showPassword }) => {
   return (
     <div
-      className="absolute inset-y-0 right-0 mt-2 pr-3 flex items-center justify-center text-sm leading-5"
+      className="absolute inset-y-0 right-0 mt-2 pr-4 flex items-center justify-center text-sm leading-5"
       onClick={handleShowPassword}
     >
       <svg

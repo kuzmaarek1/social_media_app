@@ -26,7 +26,13 @@ const PostShare = () => {
     <div className="flex gap-4 bg-cardColor p-4 rounded-[1px]">
       <img className="w-12 h-12 rounded-[50%]" src={ProfileImage} alt="" />
       <div className="w-[90%] flex flex-col gap-4">
-        <Input styles="p-2.5 text-[17px]" type="text" placeholder="What's happening" />
+        <Input
+          styles="p-2.5 text-[17px]"
+          type="text"
+          placeholder="What's happening"
+          name="posts"
+          label
+        />
         <div className="flex justify-around">
           <div
             className="p-[5px] pl-2.5 pr-2.5 rounded-[10px] flex justify-center items-center text-photo hover:cursor-pointer"

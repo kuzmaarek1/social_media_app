@@ -133,7 +133,7 @@ const Auth = () => {
               shape="circle"
             />
           </div>
-          <div className="w-full flex justify-center align-center mt-[-0.75rem] h-8">
+          <div className="w-full flex justify-center align-center h-8">
             <button type="reset" className="text-[12px]" onClick={switchMode}>
               {isSignup
                 ? 'Already have an account? Sign in'
