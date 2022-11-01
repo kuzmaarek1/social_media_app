@@ -1,6 +1,6 @@
 import React from 'react';
 import Label from '@/components/atoms/Label';
-const InputForm = ({
+const FormField = ({
   type,
   placeholder,
   name,
@@ -49,4 +49,4 @@ const InputForm = ({
     </div>
   );
 };
-export default InputForm;
+export default FormField;

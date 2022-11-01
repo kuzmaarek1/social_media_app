@@ -8,7 +8,7 @@ import {
 } from '@iconscout/react-unicons';
 import Button from '@/components/atoms/Button';
 import ProfileImage from '@/img/profileImg.jpg';
-import Input from '@/components/atoms/Input';
+import Field from '@/components/molecules/Field';
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
@@ -26,7 +26,7 @@ const PostShare = () => {
     <div className="flex gap-4 bg-cardColor p-4 rounded-[1px]">
       <img className="w-12 h-12 rounded-[50%]" src={ProfileImage} alt="" />
       <div className="w-[90%] flex flex-col gap-4">
-        <Input
+        <Field
           styles="p-2.5 text-[17px]"
           type="text"
           placeholder="What's happening"

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MainTemplates from '@/components/templates/MainTemplates';
 import Profile from '@/pages/Profile';
@@ -12,7 +12,7 @@ const App = () => {
     JSON.parse(localStorage.getItem('profile'));
 
   return (
-    <BrowserRouter>
+    <>
       <MainTemplates>
         <Routes>
           {user ? (
@@ -31,7 +31,7 @@ const App = () => {
           />
         </Routes>
       </MainTemplates>
-    </BrowserRouter>
+    </>
   );
 };
 

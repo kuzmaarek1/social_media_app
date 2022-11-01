@@ -1,6 +1,6 @@
 import { Modal, useMantineTheme } from '@mantine/core';
 import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
+import Field from '@/components/molecules/Field';
 
 const ProfileModal = ({ modalOpened, setModalOpened }) => {
   const theme = useMantineTheme();
@@ -16,21 +16,26 @@ const ProfileModal = ({ modalOpened, setModalOpened }) => {
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-      <form className="flex flex-col justify-center items-center gap-8 text-xs sm:text-base">
+      <form className="flex flex-col justify-center items-center gap-9 text-xs sm:text-base">
         <h3>Your info</h3>
         <div className="w-[90%] h-8 flex gap-4">
-          <Input name="FirstName" placeholder="First Name" />
-          <Input name="LastName" placeholder="Last Name" />
+          <Field name="FirstName" placeholder="First Name" styles="h-[138%]" label />
+          <Field name="LastName" placeholder="Last Name" label styles="h-[138%]" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <Input name="worksAt" placeholder="Works at" />
+          <Field name="worksAt" placeholder="Works at" label styles="h-[138%]" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <Input name="livesIn" placeholder="Lives in" />
-          <Input name="Country" placeholder="Country" />
+          <Field name="livesIn" placeholder="Lives in" label styles="h-[138%]" />
+          <Field name="Country" placeholder="Country" label styles="h-[138%]" />
         </div>
         <div className="w-[90%] h-8 flex gap-4">
-          <Input name="relationshipStatus" placeholder="Relationship Status" />
+          <Field
+            name="relationshipStatus"
+            placeholder="Relationship Status"
+            label
+            styles="h-[138%]"
+          />
         </div>
         <div className="w-[90%] h-8 flex gap-4 flex-col md:flex-row">
           <div className="w-full flex flex-row">

@@ -1,9 +1,9 @@
 import React from 'react';
 import Label from '@/components/atoms/Label';
 
-const Input = ({ placeholder, name, styles, children, label }) => {
+const Field = ({ placeholder, name, styles, children, label }) => {
   return (
-    <div className="relative">
+    <div className="w-full h-8 relative">
       <input
         type="text"
         placeholder={label ? '' : placeholder}
@@ -14,10 +14,10 @@ const Input = ({ placeholder, name, styles, children, label }) => {
         id={name}
         required
       />
-      {label && <Label name={name} placeholder={placeholder} styles="m-2.5" />}
+      {label && <Label name={name} placeholder={placeholder} styles={`m-2.5`} />}
       {children}
     </div>
   );
 };
 
-export default Input;
+export default Field;

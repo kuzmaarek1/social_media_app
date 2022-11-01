@@ -1,78 +1,39 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { GoogleLogin } from '@react-oauth/google';
-import Logo from '@/img/logo.png';
-import { signin, signup } from '@/actions/auth';
-import InputForm from '@/components/atoms/InputForm';
+import { useAuth } from '@/hooks/useAuth';
+import FormField from '@/components/molecules/FormField';
+import LogoForm from '@/components/molecules/LogoForm';
 import Button from '@/components/atoms/Button';
 import { defaultValues } from '@/constants/defaultValuesForm';
 import ShowPasswordButton from '@/components/atoms/ShowPasswordButton';
 
 const Auth = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const statusAuth = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
-    reset,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ defaultValues });
-  const [isSignup, setIsSignup] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const switchMode = () => {
-    reset(defaultValues);
-    statusAuth.errors = null;
-    setIsSignup((prevIsSignup) => !prevIsSignup);
-    setShowPassword(false);
-    setConfirmPassword(true);
-  };
-  const handleShowPassword = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
-  const onSubmit = (form) => {
-    setConfirmPassword(true);
-    if (isSignup) {
-      form.password === form.confirmPassword
-        ? dispatch(signup(form, navigate))
-        : setConfirmPassword(false);
-    } else {
-      dispatch(signin(form, navigate, null));
-    }
-  };
-
-  const googleSuccess = async (response) => {
-    dispatch(signin(null, navigate, response));
-  };
-
-  const googleError = () => alert('Google Sign In was unsuccessful. Try again later');
+  const statusAuth = useSelector((state) => state.auth);
+  const auth = useAuth();
 
   return (
     <div className="h-[100vh] flex flex-col sm:flex-row items-center justify-center gap-16 relative">
-      <div className="flex items-center justify-center gap-8">
-        <img className="w-20 h-16" src={Logo} alt="" />
-        <div>
-          <h1 className="text-[3rem] font-bold bg-button bg-repeat bg-clip-text text-transparent">
-            ZKC Media
-          </h1>
-          <h6 className="text-[0.85rem]">Explore the ideas throughout the world</h6>
-        </div>
-      </div>
+      <LogoForm />
       <div>
         <form
           className="w-[80vw] sm:w-[40vw] flex flex-col justify-center items-center gap-7 bg-cardColor rounded-2xl p-4"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(auth.onSubmit)}
         >
-          <h3 className="text-[1.17rem] font-bold">{isSignup ? 'Sign Up' : 'Sign In'}</h3>
-          {isSignup && (
+          <h3 className="text-[1.17rem] font-bold">
+            {auth.isSignup ? 'Sign Up' : 'Sign In'}
+          </h3>
+          {auth.isSignup && (
             <div className="w-full h-8 gap-2 grid grid-cols-2">
-              <InputForm
+              <FormField
                 type="text"
                 name="firstName"
                 placeholder="First Name"
@@ -81,7 +42,7 @@ const Auth = () => {
                 watch={watch}
                 required
               />
-              <InputForm
+              <FormField
                 type="text"
                 name="lastName"
                 placeholder="Last Name"
@@ -92,7 +53,7 @@ const Auth = () => {
               />
             </div>
           )}
-          <InputForm
+          <FormField
             type="text"
             name="email"
             placeholder="Email"
@@ -103,11 +64,11 @@ const Auth = () => {
           />
           <div
             className={`w-full h-8 gap-2 grid ${
-              isSignup ? 'grid-cols-2' : 'grid-cols-1'
+              auth.isSignup ? 'grid-cols-2' : 'grid-cols-1'
             }`}
           >
-            <InputForm
-              type={showPassword ? 'text' : 'password'}
+            <FormField
+              type={auth.showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               register={register}
@@ -116,14 +77,14 @@ const Auth = () => {
               required
             >
               <ShowPasswordButton
-                handleShowPassword={handleShowPassword}
-                showPassword={showPassword}
+                handleShowPassword={auth.handleShowPassword}
+                showPassword={auth.showPassword}
               />
-            </InputForm>
-            {isSignup && (
+            </FormField>
+            {auth.isSignup && (
               <>
-                <InputForm
-                  type={showPassword ? 'text' : 'password'}
+                <FormField
+                  type={auth.showPassword ? 'text' : 'password'}
                   name="confirmPassword"
                   placeholder="Repeat Password"
                   register={register}
@@ -132,15 +93,15 @@ const Auth = () => {
                   required
                 >
                   <ShowPasswordButton
-                    handleShowPassword={handleShowPassword}
-                    showPassword={showPassword}
+                    handleShowPassword={auth.handleShowPassword}
+                    showPassword={auth.showPassword}
                   />
-                  {!confirmPassword && !errors.confirmPassword && (
+                  {!auth.confirmPassword && !errors.confirmPassword && (
                     <span className="absolute text-[0.65rem] text-red-600 text-end w-full h-full top-10 right-0">
                       Confirm password is not same
                     </span>
                   )}
-                </InputForm>
+                </FormField>
               </>
             )}
             {statusAuth.errors && (
@@ -154,22 +115,31 @@ const Auth = () => {
               type="submit"
               styles="w-24 h-8"
               disabled={statusAuth.loading}
-              text={statusAuth.loading ? 'Loading...' : isSignup ? 'SignUp' : 'Login'}
+              text={
+                statusAuth.loading ? 'Loading...' : auth.isSignup ? 'SignUp' : 'Login'
+              }
             />
           </div>
           <div className="w-full flex align-center justify-center m-[-0.75rem] mt-[0.01rem] h-8">
             <GoogleLogin
               className="rounded-lg"
               logo_alignment="center"
-              onSuccess={googleSuccess}
-              onError={googleError}
+              onSuccess={auth.googleSuccess}
+              onError={auth.googleError}
               size="large"
               shape="circle"
             />
           </div>
           <div className="w-full flex justify-center align-center h-8">
-            <button type="reset" className="text-[12px]" onClick={switchMode}>
-              {isSignup
+            <button
+              type="reset"
+              className="text-[12px]"
+              onClick={() => {
+                reset(defaultValues);
+                auth.switchMode();
+              }}
+            >
+              {auth.isSignup
                 ? 'Already have an account? Sign in'
                 : "Don't have an account? Sign Up"}
             </button>
