@@ -7,9 +7,7 @@ import Auth from '@/pages/Auth';
 import Home from '@/pages/Home';
 
 const App = () => {
-  const user =
-    useSelector((state) => state.auth.authData) ||
-    JSON.parse(localStorage.getItem('profile'));
+  const user = useSelector((state) => state.auth.authData);
 
   return (
     <>
