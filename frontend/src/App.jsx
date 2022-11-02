@@ -8,7 +8,6 @@ import Home from '@/pages/Home';
 
 const App = () => {
   const user = useSelector((state) => state.auth.authData);
-
   return (
     <>
       <MainTemplates>

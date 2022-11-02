@@ -5,6 +5,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routes/users.js";
 import postRouter from "./routes/posts.js";
+import uploadRouter from './routes/upload.js'
+
 
 const app = express();
 dotenv.config();
@@ -12,9 +14,12 @@ dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+app.use(express.static('public')); 
+app.use('/images', express.static('images'));
 
 app.use("/user", userRouter);
-app.use("/post", postRouter);
+app.use("/posts", postRouter);
+app.use('/upload', uploadRouter);
 
 const PORT = process.env.PORT || 5000;
 

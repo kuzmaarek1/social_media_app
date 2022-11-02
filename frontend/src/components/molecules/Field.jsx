@@ -1,7 +1,7 @@
 import React from 'react';
 import Label from '@/components/atoms/Label';
 
-const Field = ({ placeholder, name, styles, children, label }) => {
+const Field = React.forwardRef(({ placeholder, name, styles, children, label }, ref) => {
   return (
     <div className="w-full h-8 relative">
       <input
@@ -12,12 +12,13 @@ const Field = ({ placeholder, name, styles, children, label }) => {
         valid:border-orange valid:border-[0.1px] valid:border-solid`}
         name={name}
         id={name}
+        ref={ref}
         required
       />
       {label && <Label name={name} placeholder={placeholder} styles={`m-2.5`} />}
       {children}
     </div>
   );
-};
+});
 
 export default Field;
