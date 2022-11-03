@@ -18,6 +18,7 @@ const PostShare = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const user = useSelector((state) => state.auth.authData);
+  const loading = useSelector((state) => state.post.uploading);
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -87,9 +88,10 @@ const PostShare = () => {
             Shedule
           </div>
           <Button
-            text="Share"
+            text={loading ? 'Uploading...' : 'Share'}
             handleButtonClick={handleSubmit}
             styles="p-[5px] pl-5 pr-5 text-[15px] w-28 h-8 bg-button self-end"
+            disabled={loading}
           />
           <div className="hidden">
             <input type="file" name="myImage" ref={imageRef} onChange={onImageChange} />

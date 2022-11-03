@@ -60,18 +60,22 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
-
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     try {
         const post = await PostModel.findById(id);
-        if (!post.likes.includes(userId)) {
-            await post.updateOne({ $push: { likes: userId } });
-            res.status(200).json("Post liked");
-        } else {
-            await post.updateOne({ $pull: { likes: userId } });
-            res.status(200).json("Post Unliked");
-        }
+        const index = post.likes.findIndex((id) => id ===String(userId));
+
+        if (index === -1) {
+      post.likes.push(userId);
+    } else {
+      post.likes = post.likes.filter((id) => id !== String(userId));
+    }
+
+    const updatedPost = await PostModel.findByIdAndUpdate(id, post, { new: true });
+    res.json(updatedPost);
     } catch (error) {
         res.status(500).json(error);
+        console.log(error)
     }
 };
 
