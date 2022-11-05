@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   UilScenery,
@@ -8,17 +8,19 @@ import {
   UilTimes,
 } from '@iconscout/react-unicons';
 import { uploadImage, uploadPost } from '@/actions/upload';
+import { useImage } from '@/hooks/useImage';
 import Button from '@/components/atoms/Button';
-import ProfileImage from '@/img/profileImg.jpg';
 import Field from '@/components/molecules/Field';
 
-const PostShare = () => {
+const PostShare = ({ modal, setModalOpened }) => {
+  const imageUpload = useImage();
   const imageRef = useRef();
   const desc = useRef();
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
-  const user = useSelector((state) => state.auth.authData);
+  const user = useSelector((state) => state.auth.authData.result);
   const loading = useSelector((state) => state.post.uploading);
+  const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -30,26 +32,18 @@ const PostShare = () => {
   const resetShare = () => {
     setImage(null);
     desc.current.value = '';
+    setModalOpened !== undefined && setModalOpened(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
-      userId: user.result._id,
+      userId: user._id,
       desc: desc.current.value,
     };
     if (image) {
-      const data = new FormData();
-      const fileName = Date.now() + image.name;
-      data.append('name', fileName);
-      data.append('file', image);
-      newPost.image = fileName;
-      console.log(newPost);
-      try {
-        dispatch(uploadImage(data));
-      } catch (err) {
-        console.log(err);
-      }
+      imageUpload.handleUploadImage(image);
+      newPost.image = imageUpload.fileName.current;
     }
     dispatch(uploadPost(newPost));
     resetShare();
@@ -57,7 +51,15 @@ const PostShare = () => {
 
   return (
     <div className="flex gap-4 bg-cardColor p-4 rounded-[1px]">
-      <img className="w-12 h-12 rounded-[50%]" src={ProfileImage} alt="" />
+      <img
+        className="w-12 h-12 rounded-[50%]"
+        src={
+          user.profilePicture
+            ? `${serverPublic}${user.profilePicture}`
+            : `${serverPublic}defaultProfile.png`
+        }
+        alt=""
+      />
       <div className="w-[90%] flex flex-col gap-4">
         <Field
           styles="p-2.5 text-[17px]"
@@ -65,6 +67,7 @@ const PostShare = () => {
           placeholder="What's happening"
           name="posts"
           label
+          modal={modal}
           ref={desc}
         />
         <div className="flex justify-around">

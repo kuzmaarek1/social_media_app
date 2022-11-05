@@ -10,8 +10,14 @@ const FormField = ({
   required,
   watch,
 }) => {
+  const emptyInput = watch(name) === undefined || watch(name)?.length === 0;
+  //console.log(watch(name)[0]?.name);
   return (
-    <div className="relative w-full flex justify-center align-center h-8">
+    <div
+      className={`relative w-full flex justify-center align-center h-8 ${
+        type === 'file' ? 'h-[100%] md:h-[200%]' : ''
+      }`}
+    >
       <input
         type={type}
         className={`w-full bg-inputColor p-5 rounded-lg flex-1 peer text-sm
@@ -22,7 +28,7 @@ const FormField = ({
         ${
           errors[name]
             ? 'border-red-600 border-[0.1px] border-solid outline-none'
-            : watch(name) === ''
+            : emptyInput
             ? 'border-none outline-none'
             : 'border-orange border-[0.1px] border-solid'
         }`}
@@ -35,8 +41,12 @@ const FormField = ({
       <Label
         name={name}
         placeholder={placeholder}
-        styles="m-2"
-        emptyInput={watch(name) === ''}
+        styles={`m-2 ${
+          type === 'file'
+            ? `${emptyInput ? 'mt-[-0.1rem] text-[0.8rem]' : 'mt-2 text-[0.65rem]'}`
+            : ''
+        }`}
+        emptyInput={emptyInput}
         form
         errors={errors[name]}
       />

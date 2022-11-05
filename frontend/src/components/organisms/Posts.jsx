@@ -6,16 +6,16 @@ import Post from '@/components/molecules/Post';
 const Posts = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.authData.result);
-  const { posts, loading } = useSelector((state) => state.post);
+  const { posts, loading, uploading } = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
-  }, []);
+  }, [uploading]);
   return (
     <div className="flex flex-col gap-[1rem]">
       {loading
         ? 'Fetching Posts'
         : posts?.map((post, id) => {
-            return <Post key={id} data={post} id={id} />;
+            return <Post key={id} data={post} />;
           })}
     </div>
   );

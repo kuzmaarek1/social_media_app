@@ -15,7 +15,7 @@ const ShareModal = ({ modalOpened, setModalOpened }) => {
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-      <PostShare />
+      <PostShare setModalOpened={setModalOpened} modal />
     </Modal>
   );
 };
