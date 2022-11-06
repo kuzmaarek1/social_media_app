@@ -1,14 +1,13 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 import UserModel from "../models/user.js";
-
-const secret = 'test';
+import mongoose from "mongoose";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    if (email === "Google") return res.status(400).json({ message: "Google Login" });
     const oldUser = await UserModel.findOne({ email });
     if (!oldUser) return res.status(404).json({ message: "User doesn't exist" });
 
@@ -22,9 +21,30 @@ export const signin = async (req, res) => {
   }
 };
 
+export const signinWithGoogle = async (req, res) => {
+  const {  id, firstName, lastName } = req.body;
+  const userId = mongoose.Types.ObjectId(id.repeat(2).substr(0,24));
+  try {
+    const oldUser = await UserModel.findById(userId);
+    
+    if(!oldUser) {  
+      const result = await UserModel.create({ email:"Google", password: "Google", firstName, lastName,  _id:userId })
+      res.status(201).json({ result });}
+    else {
+
+      res.status(200).json({ result: oldUser });
+    }
+  }
+  catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 export const signup = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   try {
+    if (email === "Google") return res.status(400).json({ message: "Google Email is not permitted" }); 
+
     const oldUser = await UserModel.findOne({ email });
     if (oldUser) return res.status(400).json({ message: "User already exists" });
 

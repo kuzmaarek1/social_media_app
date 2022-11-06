@@ -34,11 +34,14 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
     if (e.coverImage[0]?.name) {
       image.handleUploadImage(e.coverImage[0]);
       e.coverImage = image.fileName.current;
-    }
+    } else e.coverImage = '';
+
     if (e.profilePicture[0]?.name) {
       image.handleUploadImage(e.profilePicture[0]);
       e.profilePicture = image.fileName.current;
-    }
+    } else e.profilePicture = '';
+
+    console.log(e);
     dispatch(updateUser(_id, e));
     reset(defaultValues.current);
     setModalOpened(false);

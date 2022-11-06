@@ -10,16 +10,15 @@ export const signin = (formData, navigate, response) => async (dispatch) => {
       dispatch({ type: actionType.AUTH_SUCCESS, data });
     } else {
       const { given_name, family_name, picture, sub } = jwt_decode(response.credential);
-
       const token = response.credential;
       const result = {
-        _id: sub,
-        _type: 'user',
+        id: sub,
+        type: 'user',
         firstName: given_name,
         lastName: family_name,
-        imageUrl: picture,
       };
-      dispatch({ type: actionType.AUTH_SUCCESS, data: { result, token } });
+      const { data } = await api.signInWithGoogle(result);
+      dispatch({ type: actionType.AUTH_SUCCESS, data: { result: data.result, token } });
     }
     navigate('/');
   } catch (error) {

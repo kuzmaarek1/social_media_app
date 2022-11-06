@@ -13,6 +13,7 @@ API.interceptors.request.use((req) => {
 
 export const signIn = (data) => API.post('/user/signin', data);
 export const signUp = (data) => API.post('/user/signup', data);
+export const signInWithGoogle = (data) => API.post('/user/signinWithGoogle', data);
 export const uploadImage = (data) => {
   return API.post('/upload/', data);
 };
