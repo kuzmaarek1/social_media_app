@@ -74,6 +74,7 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
               errors={errors}
               watch={watch}
               reset
+              required
             />
             <FormField
               name="lastName"
@@ -82,6 +83,7 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
               errors={errors}
               watch={watch}
               reset
+              required
             />
           </div>
           <div className="w-[90%] h-8 flex gap-4">

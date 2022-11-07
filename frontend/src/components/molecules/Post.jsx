@@ -61,9 +61,20 @@ const Post = ({ data }) => {
       </span>
       <div>
         <span>
-          <b>{data.name}</b>
+          {data?.firstName ? (
+            <b>
+              {data.firstName} {''}
+              {data.lastName}
+            </b>
+          ) : (
+            <b>
+              {' '}
+              {user.firstName} {''}
+              {user.lastName}
+            </b>
+          )}
         </span>
-        <span> {data.desc}</span>
+        <span className="p-1"> {data.desc}</span>
       </div>
     </div>
   );
