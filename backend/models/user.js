@@ -10,10 +10,11 @@ const userSchema = mongoose.Schema({
         default: false,
     },
     profilePicture: String,
-    coverPicture: String,
+    coverImage: String,
     about: String,
-    livesin: String,
+    livesIn: String,
     worksAt: String,
+    country: String,
     relationship: String,
     followers: [],
     following: []

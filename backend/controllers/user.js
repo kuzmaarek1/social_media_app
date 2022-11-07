@@ -1,14 +1,13 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 import UserModel from "../models/user.js";
-
-const secret = 'test';
+import mongoose from "mongoose";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    if (email === "Google") return res.status(400).json({ message: "Google Login" });
     const oldUser = await UserModel.findOne({ email });
     if (!oldUser) return res.status(404).json({ message: "User doesn't exist" });
 
@@ -22,9 +21,30 @@ export const signin = async (req, res) => {
   }
 };
 
+export const signinWithGoogle = async (req, res) => {
+  const { id, firstName, lastName } = req.body;
+  const userId = mongoose.Types.ObjectId(id.repeat(2).substr(0, 24));
+  try {
+    const oldUser = await UserModel.findOne({ _id: userId, email: "Google", password: "Google" });
+    if (!oldUser) {
+      const result = await UserModel.create({ email: "Google", password: "Google", firstName, lastName, _id: userId })
+      res.status(201).json({ result });
+    }
+    else {
+
+      res.status(200).json({ result: oldUser });
+    }
+  }
+  catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 export const signup = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   try {
+    if (email === "Google") return res.status(400).json({ message: "Google Email is not permitted" });
+
     const oldUser = await UserModel.findOne({ email });
     if (oldUser) return res.status(400).json({ message: "User already exists" });
 
@@ -54,16 +74,17 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { currentUserId, currentUserAdminStatus, password } = req.body;
+  const { _id, currentUserAdminStatus, password } = req.body;
 
-  if (id === currentUserId || currentUserAdminStatus) {
+  if (id === _id || currentUserAdminStatus) {
     try {
       if (password) {
         const hashedPassword = await bcrypt.hash(password, 12);
         req.body.password = hashedPassword;
       }
       const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
-      res.status(200).json(user);
+      const token = jwt.sign({ username: user.username, id: user._id }, process.env.JWT_TOKEN, { expiresIn: "1h" });
+      res.status(200).json({ result: user, token });
     } catch (error) {
       res.status(500).json(error);
       console.log(error)
@@ -75,9 +96,9 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
-  const { currentUserId, currentUserAdminStatus, password } = req.body;
+  const { _id, currentUserAdminStatus, password } = req.body;
 
-  if (id === currentUserId || currentUserAdminStatus) {
+  if (id === _id || currentUserAdminStatus) {
     try {
       const user = await UserModel.findByIdAndDelete(id);
       res.status(200).json("User deleted successfully");
@@ -92,16 +113,15 @@ export const deleteUser = async (req, res) => {
 
 export const followUser = async (req, res) => {
   const { id } = req.params;
-  const { currentUserId } = req.body;
-  if (currentUserId !== id) {
+  const { _id } = req.body;
+  if (_id !== id) {
     try {
       const followUser = await UserModel.findById(id);
-      const followingUser = await UserModel.findById(currentUserId);
 
-      if (!followUser.followers.includes(currentUserId)) {
-        await followUser.updateOne({ $push: { followers: currentUserId } });
-        await followingUser.updateOne({ $push: { following: id } });
-        res.status(200).json("User followed!");
+      if (!followUser.followers.includes(_id)) {
+        await followUser.updateOne({ $push: { followers: _id} });
+        const user = await UserModel.findByIdAndUpdate(_id, { $push: { following: id } }, { new: true });
+        res.status(200).json(user.following);
       } else {
         res.status(403).json("User is Already followed by you");
       }
@@ -116,16 +136,15 @@ export const followUser = async (req, res) => {
 
 export const unFollowUser = async (req, res) => {
   const { id } = req.params;
-  const { currentUserId } = req.body;
-  if (currentUserId !== id) {
+  const { _id } = req.body;
+  if (_id!== id) {
     try {
       const followUser = await UserModel.findById(id);
-      const followingUser = await UserModel.findById(currentUserId);
 
-      if (followUser.followers.includes(currentUserId)) {
-        await followUser.updateOne({ $pull: { followers: currentUserId } });
-        await followingUser.updateOne({ $pull: { following: id } });
-        res.status(200).json("User Unfollowed!");
+      if (followUser.followers.includes(_id)) {
+        await followUser.updateOne({ $pull: { followers: _id} });
+        const user = await UserModel.findByIdAndUpdate(_id, {$pull: { following: id }}, { new: true });
+        res.status(200).json(user.following)
       } else {
         res.status(403).json("User is not followed by you");
       }
@@ -135,5 +154,19 @@ export const unFollowUser = async (req, res) => {
     }
   } else {
     res.status(403).json("Action forbidden");
+  }
+}
+
+export const getAllUser = async (req, res) => {
+  try {
+    let users = await UserModel.find();
+    users = users.map((user) => {
+      const { password, ...otherDetails } = user._doc
+      return otherDetails
+    })
+    return res.status(200).json(users)
+  }
+  catch (error) {
+    return res.status(500).json(error)
   }
 }

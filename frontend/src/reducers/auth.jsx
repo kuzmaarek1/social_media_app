@@ -5,7 +5,7 @@ const authReducer = (state = { authData: null }, action) => {
     case actionType.AUTH_START:
       return { ...state, loading: true, errors: null };
 
-    case actionType.AUTH_SUCCES:
+    case actionType.AUTH_SUCCESS:
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
       return { ...state, authData: action.data, loading: false, errors: null };
 
@@ -16,6 +16,29 @@ const authReducer = (state = { authData: null }, action) => {
       localStorage.clear();
       return { ...state, authData: null, loading: false, errors: null };
 
+    case actionType.FOLLOW_USER:
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          result: {
+            ...state.authData.result,
+            following: action.data,
+          },
+        },
+      };
+
+    case actionType.UNFOLLOW_USER:
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          result: {
+            ...state.authData.result,
+            following: action.data,
+          },
+        },
+      };
     default:
       return state;
   }

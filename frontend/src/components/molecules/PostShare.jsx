@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   UilScenery,
   UilPlayCircle,
@@ -6,25 +7,59 @@ import {
   UilSchedule,
   UilTimes,
 } from '@iconscout/react-unicons';
+import { uploadPost } from '@/actions/upload';
+import { useImage } from '@/hooks/useImage';
 import Button from '@/components/atoms/Button';
-import ProfileImage from '@/img/profileImg.jpg';
 import Field from '@/components/molecules/Field';
 
-const PostShare = () => {
-  const [image, setImage] = useState(null);
+const PostShare = ({ modal, setModalOpened }) => {
+  const imageUpload = useImage();
   const imageRef = useRef();
+  const desc = useRef();
+  const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
+  const user = useSelector((state) => state.auth.authData.result);
+  const loading = useSelector((state) => state.post.uploading);
+  const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      setImage({
-        image: URL.createObjectURL(img),
-      });
+      setImage(img);
     }
   };
+
+  const resetShare = () => {
+    setImage(null);
+    desc.current.value = '';
+    setModalOpened !== undefined && setModalOpened(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newPost = {
+      userId: user._id,
+      desc: desc.current.value,
+    };
+    if (image) {
+      imageUpload.handleUploadImage(image);
+      newPost.image = imageUpload.fileName.current;
+    }
+    dispatch(uploadPost(newPost));
+    resetShare();
+  };
+
   return (
     <div className="flex gap-4 bg-cardColor p-4 rounded-[1px]">
-      <img className="w-12 h-12 rounded-[50%]" src={ProfileImage} alt="" />
+      <img
+        className="w-12 h-12 rounded-[50%]"
+        src={
+          user.profilePicture
+            ? `${serverPublic}${user.profilePicture}`
+            : `${serverPublic}defaultProfile.png`
+        }
+        alt=""
+      />
       <div className="w-[90%] flex flex-col gap-4">
         <Field
           styles="p-2.5 text-[17px]"
@@ -32,6 +67,8 @@ const PostShare = () => {
           placeholder="What's happening"
           name="posts"
           label
+          modal={modal}
+          ref={desc}
         />
         <div className="flex justify-around">
           <div
@@ -54,8 +91,10 @@ const PostShare = () => {
             Shedule
           </div>
           <Button
-            text="Share"
+            text={loading ? 'Uploading...' : 'Share'}
+            handleButtonClick={handleSubmit}
             styles="p-[5px] pl-5 pr-5 text-[15px] w-28 h-8 bg-button self-end"
+            disabled={loading}
           />
           <div className="hidden">
             <input type="file" name="myImage" ref={imageRef} onChange={onImageChange} />
@@ -69,7 +108,7 @@ const PostShare = () => {
             />
             <img
               className="w-full max-h-80 rounded-lg object-cover"
-              src={image.image}
+              src={URL.createObjectURL(image)}
               alt=""
             />
           </div>

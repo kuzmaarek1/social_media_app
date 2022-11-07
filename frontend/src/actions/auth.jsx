@@ -7,18 +7,18 @@ export const signin = (formData, navigate, response) => async (dispatch) => {
   try {
     if (formData) {
       const { data } = await api.signIn(formData);
-      dispatch({ type: actionType.AUTH_SUCCES, data });
+      dispatch({ type: actionType.AUTH_SUCCESS, data });
     } else {
       const { given_name, family_name, picture, sub } = jwt_decode(response.credential);
       const token = response.credential;
       const result = {
-        _id: sub,
-        _type: 'user',
+        id: sub,
+        type: 'user',
         firstName: given_name,
         lastName: family_name,
-        imageUrl: picture,
       };
-      dispatch({ type: actionType.AUTH_SUCCES, data: { result, token } });
+      const { data } = await api.signInWithGoogle(result);
+      dispatch({ type: actionType.AUTH_SUCCESS, data: { result: data.result, token } });
     }
     navigate('/');
   } catch (error) {
@@ -31,10 +31,39 @@ export const signup = (formData, navigate) => async (dispatch) => {
   dispatch({ type: actionType.AUTH_START });
   try {
     const { data } = await api.signUp(formData);
-    dispatch({ type: actionType.AUTH_SUCCES, data });
+    dispatch({ type: actionType.AUTH_SUCCESS, data });
     navigate('/');
   } catch (error) {
     dispatch({ type: actionType.AUTH_FAIL });
+    console.log(error);
+  }
+};
+
+export const updateUser = (id, formData) => async (dispatch) => {
+  dispatch({ type: actionType.AUTH_START });
+  try {
+    const { data } = await api.updateUser(id, formData);
+    dispatch({ type: actionType.AUTH_SUCCESS, data });
+  } catch (error) {
+    dispatch({ type: actionType.UPDATING_FAIL });
+    console.log(error);
+  }
+};
+
+export const followUser = (id, user) => async (dispatch) => {
+  try {
+    const { data } = await api.followUser(id, user);
+    dispatch({ type: actionType.FOLLOW_USER, data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unFollowUser = (id, user) => async (dispatch) => {
+  try {
+    const { data } = await api.unFollowUser(id, user);
+    dispatch({ type: actionType.UNFOLLOW_USER, data });
+  } catch (error) {
     console.log(error);
   }
 };

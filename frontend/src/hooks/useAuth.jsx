@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signin, signup } from '@/actions/auth';
-import { defaultValues } from '@/constants/defaultValuesForm';
 
 export const useAuth = () => {
   const dispatch = useDispatch();

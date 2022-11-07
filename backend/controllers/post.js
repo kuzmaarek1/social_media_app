@@ -6,12 +6,11 @@ export const createPost = async (req, res) => {
     const newPost = new PostModel(req.body);
     try {
         await newPost.save();
-        res.status(200).json("Post created!");
+        res.status(200).json(newPost);
     } catch (error) {
         res.status(500).json(error);
     }
 };
-
 
 export const getPost = async (req, res) => {
     const { id } = req.params;
@@ -61,18 +60,22 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
-
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     try {
         const post = await PostModel.findById(id);
-        if (!post.likes.includes(userId)) {
-            await post.updateOne({ $push: { likes: userId } });
-            res.status(200).json("Post liked");
+        const index = post.likes.findIndex((id) => id === String(userId));
+
+        if (index === -1) {
+            post.likes.push(userId);
         } else {
-            await post.updateOne({ $pull: { likes: userId } });
-            res.status(200).json("Post Unliked");
+            post.likes = post.likes.filter((id) => id !== String(userId));
         }
+
+        const updatedPost = await PostModel.findByIdAndUpdate(id, post, { new: true });
+        res.json(updatedPost);
     } catch (error) {
         res.status(500).json(error);
+        console.log(error)
     }
 };
 
@@ -86,6 +89,19 @@ export const getTimelinePosts = async (req, res) => {
                 $match: {
                     _id: new mongoose.Types.ObjectId(userId),
                 },
+            }, {
+                $addFields: { "user_id": { "$toString": "$_id" } }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "user_id",
+                    foreignField: "following",
+                    as: "user",
+                },
+            },
+            {
+                $unwind: "$user"
             },
             {
                 $lookup: {
@@ -96,21 +112,29 @@ export const getTimelinePosts = async (req, res) => {
                 },
             },
             {
+                $unwind: "$followingPosts"
+            },
+            {
                 $project: {
                     followingPosts: 1,
+                    "user.firstName": 1,
+                    "user.lastName": 1,
                     _id: 0,
                 },
             },
         ]);
-
+        const posts = followingPosts.map(({ user, followingPosts }) => {
+            return { ...followingPosts, ...user }
+        });
         res
             .status(200)
-            .json(currentUserPosts.concat(...followingPosts[0].followingPosts)
+            .json(currentUserPosts.concat(...posts)
                 .sort((a, b) => {
                     return b.createdAt - a.createdAt;
                 })
             );
     } catch (error) {
+        console.log(error)
         res.status(500).json(error);
     }
 };

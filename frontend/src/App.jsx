@@ -8,7 +8,6 @@ import Home from '@/pages/Home';
 
 const App = () => {
   const user = useSelector((state) => state.auth.authData);
-
   return (
     <>
       <MainTemplates>
@@ -17,7 +16,7 @@ const App = () => {
             <>
               <Route path="/" exact element={<Navigate to="/home" replace />} />
               <Route path="/home" exact element={<Home />} />
-              <Route path="/profile" exact element={<Profile />} />
+              <Route path="/profile/:id" exact element={<Profile />} />
             </>
           ) : (
             <Route path="*" exact element={<Navigate to="/auth" replace />} />

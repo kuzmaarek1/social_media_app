@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import FormField from '@/components/molecules/FormField';
 import LogoForm from '@/components/molecules/LogoForm';
 import Button from '@/components/atoms/Button';
-import { defaultValues } from '@/constants/defaultValuesForm';
+import { authValues } from '@/constants/defaultValuesForm';
 import ShowPasswordButton from '@/components/atoms/ShowPasswordButton';
 
 const Auth = () => {
@@ -16,7 +16,7 @@ const Auth = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm({ defaultValues });
+  } = useForm({ defaultValues: authValues });
   const statusAuth = useSelector((state) => state.auth);
   const auth = useAuth();
 
@@ -135,7 +135,7 @@ const Auth = () => {
               type="reset"
               className="text-[12px]"
               onClick={() => {
-                reset(defaultValues);
+                reset(authValues);
                 auth.switchMode();
               }}
             >
