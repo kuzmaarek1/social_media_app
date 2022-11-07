@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   UilScenery,
@@ -7,7 +7,7 @@ import {
   UilSchedule,
   UilTimes,
 } from '@iconscout/react-unicons';
-import { uploadImage, uploadPost } from '@/actions/upload';
+import { uploadPost } from '@/actions/upload';
 import { useImage } from '@/hooks/useImage';
 import Button from '@/components/atoms/Button';
 import Field from '@/components/molecules/Field';

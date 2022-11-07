@@ -5,12 +5,17 @@ import Share from '@/img/share.png';
 import Heart from '@/img/like.png';
 import NotLike from '@/img/notlike.png';
 import { likePost } from '@/actions/posts';
+import { useEffect } from 'react';
 
 const Post = ({ data }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.authData.result);
   const [likes, setLikes] = useState(data?.likes);
   const hasLikedPost = likes?.find((like) => like === user._id);
+
+  useEffect(() => {
+    setLikes(data?.likes);
+  }, [data]);
 
   const handleLike = () => {
     dispatch(likePost(data._id, user._id));

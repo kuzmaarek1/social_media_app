@@ -12,7 +12,7 @@ const Posts = () => {
 
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
-  }, [uploading]);
+  }, [uploading, user]);
 
   if (params.id) posts = posts.filter((post) => post.userId === params.id);
   return (
