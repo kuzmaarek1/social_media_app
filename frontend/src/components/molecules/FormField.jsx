@@ -11,7 +11,6 @@ const FormField = ({
   watch,
 }) => {
   const emptyInput = watch(name) === undefined || watch(name)?.length === 0;
-  //console.log(watch(name)[0]?.name);
   return (
     <div
       className={`relative w-full flex justify-center align-center h-8 ${

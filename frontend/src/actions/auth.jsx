@@ -49,3 +49,21 @@ export const updateUser = (id, formData) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const followUser = (id, user) => async (dispatch) => {
+  try {
+    const { data } = await api.followUser(id, user);
+    dispatch({ type: actionType.FOLLOW_USER, data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unFollowUser = (id, user) => async (dispatch) => {
+  try {
+    const { data } = await api.unFollowUser(id, user);
+    dispatch({ type: actionType.UNFOLLOW_USER, data });
+  } catch (error) {
+    console.log(error);
+  }
+};

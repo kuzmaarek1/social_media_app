@@ -16,6 +16,29 @@ const authReducer = (state = { authData: null }, action) => {
       localStorage.clear();
       return { ...state, authData: null, loading: false, errors: null };
 
+    case actionType.FOLLOW_USER:
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          result: {
+            ...state.authData.result,
+            following: action.data,
+          },
+        },
+      };
+
+    case actionType.UNFOLLOW_USER:
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          result: {
+            ...state.authData.result,
+            following: action.data,
+          },
+        },
+      };
     default:
       return state;
   }

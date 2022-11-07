@@ -1,28 +1,25 @@
-import React from 'react';
-import { followers } from '@/data/followers';
-import Button from '@/components/atoms/Button';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getAllUser } from '@/api/index.jsx';
+import User from '@/components/molecules/User';
 
 const FollowersCard = () => {
+  const [persons, setPersons] = useState([]);
+  const user = useSelector((state) => state.auth.authData.result);
+
+  useEffect(() => {
+    const fetchPersons = async () => {
+      const { data } = await getAllUser();
+      setPersons(data);
+    };
+    fetchPersons();
+  }, [user]);
+
   return (
     <div className="w-full rounded-[0.7rem] gap-4 flex flex-col text-[13px]">
-      <h3 className="font-bold text-[1.17rem]">Who is following you</h3>
-      {followers.map((follower, id) => {
-        return (
-          <div key={id} className="flex justify-between items-center">
-            <div className="flex gap-2.5">
-              <img
-                className="w-[3.2rem] h-[3.2rem] rounded-[50%]"
-                src={follower.img}
-                alt=""
-              />
-              <div className="flex flex-col items-start justify-center">
-                <span className="font-bold">{follower.name}</span>
-                <span>@{follower.username}</span>
-              </div>
-            </div>
-            <Button text="Follow" styles="h-8 pl-5 pr-5 self-end w-[30%]" />
-          </div>
-        );
+      <h3 className="font-bold text-[1.17rem]">People you may know</h3>
+      {persons.map((person, id) => {
+        return person._id !== user._id && <User person={person} key={id} />;
       })}
     </div>
   );

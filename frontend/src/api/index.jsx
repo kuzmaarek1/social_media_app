@@ -23,3 +23,6 @@ export const likePost = (id, userId) =>
   API.patch(`/posts/${id}/like`, { userId: userId });
 export const getUser = (id) => API.get(`user/${id}`);
 export const updateUser = (id, data) => API.patch(`/user/${id}`, data);
+export const getAllUser = () => API.get('/user/');
+export const followUser = (id, data) => API.patch(`/user/${id}/follow`, data);
+export const unFollowUser = (id, data) => API.patch(`/user/${id}/unfollow`, data);
