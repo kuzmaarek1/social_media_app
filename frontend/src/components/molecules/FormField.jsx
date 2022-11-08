@@ -22,13 +22,13 @@ const FormField = ({
         className={`w-full bg-inputColor p-5 rounded-lg flex-1 peer text-sm
         ${
           !errors[name] &&
-          'focus:border-orange focus:border-[0.1px] focus:border-solid focus:outline-none'
+          'focus:border-orange focus:border-[0.1px] focus:border-solid focus:outline-0'
         }
         ${
           errors[name]
-            ? 'border-red-600 border-[0.1px] border-solid outline-none'
+            ? 'border-red-600 border-[0.1px] border-solid outline-0'
             : emptyInput
-            ? 'border-none outline-none'
+            ? 'border-none outline-0'
             : 'border-orange border-[0.1px] border-solid'
         }`}
         name={name}

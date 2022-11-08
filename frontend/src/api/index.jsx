@@ -26,3 +26,5 @@ export const updateUser = (id, data) => API.patch(`/user/${id}`, data);
 export const getAllUser = () => API.get('/user/');
 export const followUser = (id, data) => API.patch(`/user/${id}/follow`, data);
 export const unFollowUser = (id, data) => API.patch(`/user/${id}/unfollow`, data);
+export const userChats = (id) => API.get(`/chat/${id}`);
+export const getMessages = (id) => API.get(`/message/${id}`);

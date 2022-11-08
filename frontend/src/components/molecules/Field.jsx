@@ -8,7 +8,7 @@ const Field = React.forwardRef(
         <input
           type="text"
           placeholder={label ? '' : placeholder}
-          className={`w-full border-none outline-none bg-inputColor p-5 rounded-lg flex-1 ${styles} peer
+          className={`w-full border-none outline-0 bg-inputColor p-5 rounded-lg flex-1 ${styles} peer
         focus:border-orange focus:border-[0.1px] focus:border-solid 
         valid:border-orange valid:border-[0.1px] valid:border-solid`}
           name={modal ? `${name}modal` : name}

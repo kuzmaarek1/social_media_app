@@ -15,6 +15,18 @@
     border: 2px solid red;
     color: red;
   }
+  .bg-message-own {
+    background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%);
+  }
+
+  .bg-button-add {
+    background: rgb(233, 233, 233);
+  }
+
+  .bg-input-message {
+    background-color: rgb(236, 236, 236);
+  }
+
   ::-webkit-scrollbar {
     display: none;
   }

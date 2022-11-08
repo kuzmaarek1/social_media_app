@@ -5,6 +5,7 @@ import MainTemplates from '@/components/templates/MainTemplates';
 import Profile from '@/pages/Profile';
 import Auth from '@/pages/Auth';
 import Home from '@/pages/Home';
+import Chat from '@/pages/Chat';
 
 const App = () => {
   const user = useSelector((state) => state.auth.authData);
@@ -17,6 +18,7 @@ const App = () => {
               <Route path="/" exact element={<Navigate to="/home" replace />} />
               <Route path="/home" exact element={<Home />} />
               <Route path="/profile/:id" exact element={<Profile />} />
+              <Route path="/chat" exact element={<Chat />} />
             </>
           ) : (
             <Route path="*" exact element={<Navigate to="/auth" replace />} />
