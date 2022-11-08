@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 import userRouter from "./routes/users.js";
 import postRouter from "./routes/posts.js";
 import uploadRouter from './routes/upload.js'
-
+import chatRouter from './routes/chat.js'
+import messageRouter from './routes/message.js'
 
 const app = express();
 dotenv.config();
@@ -15,12 +16,14 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use(express.static('./public')); 
+app.use(express.static('./public'));
 app.use('/images', express.static('images'));
 
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
 app.use('/upload', uploadRouter);
+app.use('/chat', chatRouter);
+app.use('/message', messageRouter);
 
 const PORT = process.env.PORT || 5000;
 
