@@ -62,7 +62,7 @@ const PostShare = ({ modal, setModalOpened }) => {
       />
       <div className="w-[90%] flex flex-col gap-4">
         <Field
-          styles="p-2.5 text-[17px]"
+          styles="p-2.5 text-[17px] h-8"
           type="text"
           placeholder="What's happening"
           name="posts"

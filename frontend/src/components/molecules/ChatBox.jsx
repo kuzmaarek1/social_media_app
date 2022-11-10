@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputEmoji from 'react-input-emoji';
 import { format } from 'timeago.js';
 import * as api from '@/api';
 import Button from '@/components/atoms/Button';
 
-const ChatBox = ({ chat, currentUser }) => {
+const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const scroll = useRef();
   const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
+
+  useEffect(() => {
+    if (receivedMessage != null && receivedMessage.chatId === chat._id) {
+      setMessages([...messages, receivedMessage]);
+    }
+  }, [receivedMessage]);
 
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentUser);
@@ -28,13 +35,34 @@ const ChatBox = ({ chat, currentUser }) => {
       try {
         const { data } = await api.getMessages(chat._id);
         setMessages(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     if (chat !== null) fetchMessages();
   }, [chat]);
+
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    const message = {
+      senderId: currentUser,
+      text: newMessage,
+      chatId: chat._id,
+    };
+    const receiverId = chat?.members.find((id) => id !== currentUser);
+    setSendMessage({ ...message, receiverId });
+    try {
+      const { data } = await api.addMessage(message);
+      setMessages([...messages, data]);
+      setNewMessage('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -74,6 +102,7 @@ const ChatBox = ({ chat, currentUser }) => {
                     ? 'self-end  rounded-[1rem_1rem_0_1rem] bg-message-own'
                     : ''
                 }`}
+                ref={scroll}
                 key={message._id}
               >
                 <span>{message.text}</span>
@@ -92,7 +121,7 @@ const ChatBox = ({ chat, currentUser }) => {
               value={newMessage}
               onChange={handleChange}
             />
-            <Button text="Send" styles={'p-2'} />
+            <Button text="Send" styles={'p-2'} handleButtonClick={handleSend} />
           </div>
         </>
       ) : (

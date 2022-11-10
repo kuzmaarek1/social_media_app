@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as api from '@/api';
 
-const Conversation = ({ data, currentUser }) => {
+const Conversation = ({ data, currentUser, online }) => {
   const [userData, setUserData] = useState(null);
   const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
 
@@ -23,7 +23,9 @@ const Conversation = ({ data, currentUser }) => {
       <>
         <div className="flex justify-between items-center p-2.5 rounded-lg hover:bg-[#80808038] hover:cursor-pointer">
           <div className="relative flex gap-2.5">
-            <div className="w-4 h-4 absolute rounded-[50%] left-8 bg-[greenyellow]"></div>
+            {online && (
+              <div className="w-4 h-4 absolute rounded-[50%] left-8 bg-[greenyellow]"></div>
+            )}
             <img
               className="w-12 h-12"
               src={
@@ -37,7 +39,9 @@ const Conversation = ({ data, currentUser }) => {
               <span className="font-bold">
                 {`${userData?.firstName} ${userData?.lastName}`}
               </span>
-              <span className="text-gray text-[13px]">Online</span>
+              <span className="text-gray text-[13px]">
+                {online ? 'Online' : 'Office'}
+              </span>
             </div>
           </div>
         </div>

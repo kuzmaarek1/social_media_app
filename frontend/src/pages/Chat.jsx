@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { io } from 'socket.io-client';
 import * as api from '@/api';
 import NavIcons from '@/components/molecules/NavIcons';
 import LogoSearch from '@/components/molecules/LogoSearch';
@@ -10,6 +11,10 @@ const Chat = () => {
   const user = useSelector((state) => state.auth.authData.result);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receivedMessage, setReceivedMessage] = useState(null);
+  const socket = useRef();
 
   useEffect(() => {
     const getChats = async () => {
@@ -23,6 +28,32 @@ const Chat = () => {
     getChats();
   }, [user]);
 
+  useEffect(() => {
+    socket.current = io('http://localhost:8800');
+    socket.current.emit('new-user-add', user._id);
+    socket.current.on('get-users', (users) => {
+      setOnlineUsers(users);
+    });
+  }, [user]);
+
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit('send-message', sendMessage);
+    }
+  }, [sendMessage]);
+
+  useEffect(() => {
+    socket.current.on('receive-message', (data) => {
+      setReceivedMessage(data);
+    });
+  }, []);
+
+  const chceckOnlineStatus = (chat) => {
+    const chatMember = chat?.members.find((member) => member !== user._id);
+    const online = onlineUsers?.find((user) => user.userId === chatMember);
+    return online ? true : false;
+  };
+
   return (
     <div className="relative grid md:grid-cols-[22%_auto] grid-cols-[16%_auto] gap-4">
       <div className="flex flex-col gap-4">
@@ -32,7 +63,11 @@ const Chat = () => {
           <div className="flex flex-col gap-4">
             {chats.map((chat) => (
               <div onClick={() => setCurrentChat(chat)} key={chat._id}>
-                <Conversation data={chat} currentUser={user._id} />
+                <Conversation
+                  data={chat}
+                  currentUser={user._id}
+                  online={chceckOnlineStatus(chat)}
+                />
               </div>
             ))}
           </div>
@@ -45,8 +80,8 @@ const Chat = () => {
         <ChatBox
           chat={currentChat}
           currentUser={user._id}
-          //setSendMessage={setSendMessage}
-          //receivedMessage={receivedMessage}
+          setSendMessage={setSendMessage}
+          receivedMessage={receivedMessage}
         />
       </div>
     </div>

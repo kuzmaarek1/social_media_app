@@ -26,6 +26,7 @@
     "react-router-dom": "^6.4.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.5.3",
     "tailwindcss-text-fill": "^0.2.0",
     "timeago.js": "^4.0.2"
   },
